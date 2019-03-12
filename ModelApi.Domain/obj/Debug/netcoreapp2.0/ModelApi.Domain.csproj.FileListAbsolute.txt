@@ -1,0 +1,9 @@
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\bin\Debug\netcoreapp2.0\ModelApi.Domain.deps.json
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\bin\Debug\netcoreapp2.0\ModelApi.Domain.dll
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.csprojResolveAssemblyReference.cache
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.AssemblyInfoInputs.cache
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.AssemblyInfo.cs
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\bin\Debug\netcoreapp2.0\ModelApi.Domain.pdb
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.dll
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Domain\obj\Debug\netcoreapp2.0\ModelApi.Domain.pdb
