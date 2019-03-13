@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System;
 
-namespace ModelApi.CrossCutting.AutoMapper
+namespace ModelApi.Domain.AutoMapper
 {
     public class ViewModelToDomainMappingProfile : Profile
     {

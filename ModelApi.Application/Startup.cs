@@ -10,18 +10,30 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModelApi.Application.Secuity;
-using ModelApi.CrossCutting.AutoMapper;
+using ModelApi.Domain.AutoMapper;
 using ModelApi.IoC;
 using Newtonsoft.Json;
 using AutoMapper;
+using ModelApi.Application.Middleware;
+using ModelApi.CrossCutting;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ModelApi.Application
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IHostingEnvironment enviroment;
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+               .SetBasePath(env.ContentRootPath)
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+               .AddEnvironmentVariables();
+
+            enviroment = env;
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +41,7 @@ namespace ModelApi.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConnectionStrings.ModelApiConnection = Configuration.GetConnectionString("ModelApiConnection");
             services.AddMvc(config =>
             {
                 //var policy = new AuthorizationPolicyBuilder()
@@ -47,10 +60,17 @@ namespace ModelApi.Application
             });
 
             Mapper.Initialize(cfg =>
-            {});
+            {
+                cfg.ValidateInlineMaps = false;
+            });
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             AutoMapperConfiguration.RegisterMappings();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = $"ModelApi API {enviroment.EnvironmentName}", Version = "v1", Description = "Projeto ModelApi" });
+            });
 
             services.AddOptions();
 
@@ -81,7 +101,16 @@ namespace ModelApi.Application
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseResponseExceptionHandler();
+            
             app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseMvc(routes =>
             {

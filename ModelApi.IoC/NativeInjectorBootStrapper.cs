@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using ModelApi.Domain.Interfaces.Infra;
 using ModelApi.Domain.Interfaces.Service;
+using ModelApi.Infra;
+using ModelApi.Infra.Repositories;
 using ModelApi.Service.Services;
+using System.Data;
 
 namespace ModelApi.IoC
 {
@@ -13,8 +17,7 @@ namespace ModelApi.IoC
 
             //Sample
             services.AddTransient<ISampleService, SampleService>();
-            //services.AddTransient<IAtributoService, AtributoService>();
-            //services.AddTransient<IAtributoRepository, AtributoRepository>();
+            services.AddTransient<ISampleRepository, SampleRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(Mapper.Configuration);

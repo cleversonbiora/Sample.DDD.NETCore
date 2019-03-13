@@ -11,3 +11,5 @@ C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Deb
 C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Debug\netcoreapp2.0\ModelApi.Infra.dll
 C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Debug\netcoreapp2.0\ModelApi.Domain.pdb
 C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Debug\netcoreapp2.0\ModelApi.Infra.pdb
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Debug\netcoreapp2.0\ModelApi.CrossCutting.dll
+C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.Service\bin\Debug\netcoreapp2.0\ModelApi.CrossCutting.pdb

@@ -12,7 +12,7 @@ namespace ModelApi.Application.Secuity
         {
             options.AddPolicy("UpdateParametros", policy =>
                 policy.RequireAssertion(context =>
-                context.User.Identity.Name == "SistemasBancarios"));
+                context.User.Identity.Name == "ModelApi"));
         }
     }
 }

@@ -8,8 +8,9 @@ namespace ModelApi.Application.Controllers
 {
     public class BaseController : Controller
     {
+
         [NonAction]
-        public async Task<IActionResult> Response(object result, IReadOnlyCollection<string> notifications = null)
+        public new IActionResult Response(object result, IReadOnlyCollection<string> notifications = null)
         {
             if (notifications == null || !notifications.Any())
             {
