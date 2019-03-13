@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using ModelApi.Domain.Interfaces.Infra;
+using ModelApi.Domain.ViewModel;
 
 namespace ModelApi.Service.Services
 {
@@ -21,16 +22,15 @@ namespace ModelApi.Service.Services
             _mapper = mapper;
             _sampleRepository = sampleRepository;
         }
-        public Sample Get()
+        public SampleViewModel Get(int id)
         {
-            return _sampleRepository.GetById(5);
+            return _mapper.Map<SampleViewModel>(_sampleRepository.GetById(id));
         }
         
         public int Post(InsertSampleCommand sample)
         {
             Validate(sample, new InsertSampleValidator());
-            var model = _mapper.Map<Sample>(sample);
-            return _sampleRepository.Insert(model);
+            return _sampleRepository.Insert(_mapper.Map<Sample>(sample));
         }
         
     }

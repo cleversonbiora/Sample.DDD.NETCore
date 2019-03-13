@@ -12,8 +12,6 @@ using ModelApi.Domain.Models;
 using FluentValidation;
 using ModelApi.Domain.Commands.Sample;
 
-//https://medium.com/@alexalves_85598/criando-uma-api-em-net-core-baseado-na-arquitetura-ddd-2c6a409c686
-
 namespace ModelApi.Application.Controllers
 {
     [EnableCors("Cors")]
@@ -29,9 +27,9 @@ namespace ModelApi.Application.Controllers
         
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int id)
         {
-            return Response(_sampleService.Get());
+            return Response(_sampleService.Get(id));
         }
 
         [AllowAnonymous]

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ModelApi.Domain.Models;
+using ModelApi.Domain.ViewModel;
 
 namespace ModelApi.Domain.AutoMapper
 {
@@ -6,7 +8,7 @@ namespace ModelApi.Domain.AutoMapper
     {
         public DomainToViewModelMappingProfile()
         {
-
+            CreateMap<Sample, SampleViewModel>();
         }
     }
 }
