@@ -11,6 +11,7 @@ using ModelApi.Domain.Interfaces.Service;
 using ModelApi.Domain.Models;
 using FluentValidation;
 using ModelApi.Domain.Commands.Sample;
+using ModelApi.CrossCutting.Attributes;
 
 namespace ModelApi.Application.Controllers
 {
@@ -24,7 +25,8 @@ namespace ModelApi.Application.Controllers
         {
             _sampleService = sampleAppService;
         }
-        
+
+        //[TestAutmated(1)]
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(int id)
