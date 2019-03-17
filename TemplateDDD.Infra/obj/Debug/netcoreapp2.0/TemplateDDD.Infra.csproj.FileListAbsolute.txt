@@ -1,0 +1,14 @@
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.Infra.deps.json
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.Infra.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.Infra.pdb
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.Domain.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.pdb
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\bin\Debug\netcoreapp2.0\TemplateDDD.Domain.pdb
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.csprojAssemblyReference.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.csproj.CoreCompileInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.AssemblyInfoInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.AssemblyInfo.cs
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.csproj.CopyComplete
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Infra\obj\Debug\netcoreapp2.0\TemplateDDD.Infra.pdb

@@ -1,0 +1,9 @@
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\bin\Debug\netcoreapp2.0\TemplateDDD.Domain.deps.json
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\bin\Debug\netcoreapp2.0\TemplateDDD.Domain.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\bin\Debug\netcoreapp2.0\TemplateDDD.Domain.pdb
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.csprojAssemblyReference.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.AssemblyInfoInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.AssemblyInfo.cs
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.Domain\obj\Debug\netcoreapp2.0\TemplateDDD.Domain.pdb

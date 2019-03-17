@@ -1,9 +1,0 @@
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\bin\Debug\netcoreapp2.0\ModelApi.CrossCutting.deps.json
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\bin\Debug\netcoreapp2.0\ModelApi.CrossCutting.dll
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\bin\Debug\netcoreapp2.0\ModelApi.CrossCutting.pdb
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.csprojResolveAssemblyReference.cache
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.csproj.CoreCompileInputs.cache
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.AssemblyInfoInputs.cache
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.AssemblyInfo.cs
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.dll
-C:\Users\99000663\Documents\Template\Sample.DDD.NETCore\ModelApi.CrossCutting\obj\Debug\netcoreapp2.0\ModelApi.CrossCutting.pdb

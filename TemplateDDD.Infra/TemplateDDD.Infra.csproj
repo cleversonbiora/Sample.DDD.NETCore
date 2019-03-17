@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TemplateDDD.CrossCutting\TemplateDDD.CrossCutting.csproj" />
+    <ProjectReference Include="..\TemplateDDD.Domain\TemplateDDD.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.60.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\bin\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.deps.json
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\bin\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\bin\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.pdb
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.csprojAssemblyReference.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.csproj.CoreCompileInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.AssemblyInfoInputs.cache
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.AssemblyInfo.cs
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.dll
+C:\Users\Cleverson\Projetos\Template.DDD.NETCore2\TemplateDDD.CrossCutting\obj\Debug\netcoreapp2.0\TemplateDDD.CrossCutting.pdb
