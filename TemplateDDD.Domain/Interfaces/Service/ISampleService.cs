@@ -11,5 +11,7 @@ namespace TemplateDDD.Domain.Interfaces.Service
     {
         SampleViewModel Get(int id);
         int Post(InsertSampleCommand sample);
+        bool Put(UpdateSampleCommand sample);
+        bool Delete(int id);
     }
 }

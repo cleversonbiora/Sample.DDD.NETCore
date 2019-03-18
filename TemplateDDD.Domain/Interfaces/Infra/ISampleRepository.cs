@@ -9,5 +9,7 @@ namespace TemplateDDD.Domain.Interfaces.Infra
     {
         int Insert(Sample sample);
         Sample GetById(int id);
+        bool Update(Sample model);
+        bool Delete(int id);
     }
 }

@@ -16,30 +16,29 @@ using TemplateDDD.CrossCutting.Attributes;
 namespace TemplateDDD.Application.Controllers
 {
     [EnableCors("Cors")]
-    [Route("api/Sample")]
+    [Route("api/[Controller]")]
     public class SampleController : BaseController
     {
         private readonly ISampleService _sampleService;
 
-        public SampleController(ISampleService sampleAppService)
-        {
-            _sampleService = sampleAppService;
-        }
+        public SampleController(ISampleService sampleAppService) => _sampleService = sampleAppService;
+
+        [AllowAnonymous, HttpGet]
+        public IActionResult ListAll() => Response(null);
 
         //[TestAutmated(1)]
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Get(int id)
-        {
-            return Response(_sampleService.Get(id));
-        }
+        [AllowAnonymous, HttpGet("{id}")]
+        public IActionResult Get(int id) => Response(_sampleService.Get(id));
 
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]InsertSampleCommand sample)
-        {
-           return Response(_sampleService.Post(sample));
-        }
-        
+        [AllowAnonymous, HttpGet("filter")]
+        public IActionResult ListFilter(string description, string name) => Response(null);
+
+        [AllowAnonymous, HttpPost]
+        public IActionResult Post([FromBody]InsertSampleCommand sample) => Response(_sampleService.Post(sample));
+
+        [AllowAnonymous, HttpPut]
+        public IActionResult Put([FromBody]UpdateSampleCommand sample) => Response(_sampleService.Put(sample));
+        [AllowAnonymous, HttpDelete]
+        public IActionResult Delete([FromBody]int id) => Response(_sampleService.Delete(id));
     }
 }

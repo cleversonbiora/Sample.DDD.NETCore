@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TemplateDDD.Service.Commands.Sample
+namespace TemplateDDD.Domain.Commands.Sample
 {
-    public class InsertSampleCommand
+    public class UpdateSampleCommand
     {
+        public int Id { get; set; }
         public string Description { get; set; }
     }
 }

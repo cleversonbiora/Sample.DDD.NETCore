@@ -16,6 +16,11 @@ namespace TemplateDDD.Infra.Repositories
                                                  VALUES
                                                        (@Description
                                                        )";
+        private const string QueryUpdate = @"UPDATE [dbo].[Sample]
+                                                   SET [Description] = @Description
+                                                   WHERE [Id] = @Id";
+        private const string QueryDelete = @"DELETE FROM [dbo].[Sample]
+                                                   WHERE [Id] = @Id";
     }
 }
 

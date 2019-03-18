@@ -19,12 +19,46 @@ namespace TemplateDDD.Infra.Repositories
             IDbTransaction trans = _conn.BeginTransaction();
             try
             {
-                //Insere o atributo
                 var id = _conn.Query<int>(QueryInsert, model, trans).Single();
 
                 trans.Commit();
 
                 return id;
+            }
+            catch (Exception)
+            {
+                trans.Rollback();
+                throw;
+            }
+        }
+
+        public bool Update(Sample model)
+        {
+            IDbTransaction trans = _conn.BeginTransaction();
+            try
+            {
+                _conn.Query(QueryUpdate, model, trans);
+
+                trans.Commit();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                trans.Rollback();
+                throw;
+            }
+        }
+        public bool Delete(int id)
+        {
+            IDbTransaction trans = _conn.BeginTransaction();
+            try
+            {
+                _conn.Query(QueryUpdate, new { Id = id }, trans);
+
+                trans.Commit();
+
+                return true;
             }
             catch (Exception)
             {

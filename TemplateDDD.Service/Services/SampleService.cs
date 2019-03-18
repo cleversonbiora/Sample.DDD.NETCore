@@ -22,6 +22,7 @@ namespace TemplateDDD.Service.Services
             _mapper = mapper;
             _sampleRepository = sampleRepository;
         }
+
         public SampleViewModel Get(int id)
         {
             return _mapper.Map<SampleViewModel>(_sampleRepository.GetById(id));
@@ -32,6 +33,16 @@ namespace TemplateDDD.Service.Services
             Validate(sample, new InsertSampleValidator());
             return _sampleRepository.Insert(_mapper.Map<Sample>(sample));
         }
-        
+
+        public bool Put(UpdateSampleCommand sample)
+        {
+            Validate(sample, new UpdateSampleValidator());
+            return _sampleRepository.Update(_mapper.Map<Sample>(sample));
+        }
+
+        public bool Delete(int id)
+        {
+            return _sampleRepository.Delete(id);
+        }
     }
 }
