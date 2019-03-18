@@ -17,6 +17,9 @@ using AutoMapper;
 using TemplateDDD.Application.Middleware;
 using TemplateDDD.CrossCutting;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TemplateDDD.Application
 {
@@ -42,6 +45,23 @@ namespace TemplateDDD.Application
         public void ConfigureServices(IServiceCollection services)
         {
             ConnectionStrings.TemplateDDDConnection = Configuration.GetConnectionString("TemplateDDDConnection");
+            //https://jonhilton.net/security/apis/secure-your-asp.net-core-2.0-api-part-2---jwt-bearer-authentication/
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "yourdomain.com",
+                ValidAudience = "yourdomain.com",
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+            };
+        });
+
             services.AddMvc(config =>
             {
                 //var policy = new AuthorizationPolicyBuilder()
@@ -70,6 +90,10 @@ namespace TemplateDDD.Application
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = $"TemplateDDD API {enviroment.EnvironmentName}", Version = "v1", Description = "Projeto TemplateDDD" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                { "Bearer", Enumerable.Empty<string>() },
+            });
             });
 
             services.AddOptions();
@@ -101,6 +125,8 @@ namespace TemplateDDD.Application
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
+
             app.UseResponseExceptionHandler();
             
             app.UseStaticFiles();
@@ -110,6 +136,7 @@ namespace TemplateDDD.Application
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                
             });
 
             app.UseMvc(routes =>
