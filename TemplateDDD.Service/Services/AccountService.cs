@@ -13,7 +13,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using TemplateDDD.CrossCutting.Utils;
-
+//https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-2.2
 namespace TemplateDDD.Service.Services
 {
     public class AccountService : BaseService, IAccountService
@@ -26,8 +26,13 @@ namespace TemplateDDD.Service.Services
             _mapper = mapper;
             _sampleRepository = sampleRepository;
         }
-        
-        
+
+        public void Register(RegisterAccountCommand login)
+        {
+
+        }
+
+
         public object Login(LoginAccountCommand login)
         {
             Validate(login, new LoginAccountValidator());
