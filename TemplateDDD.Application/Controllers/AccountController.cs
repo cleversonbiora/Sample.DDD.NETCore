@@ -22,29 +22,16 @@ namespace TemplateDDD.Application.Controllers
     [Route("api/[Controller]")]
     public class AccountController : BaseController
     {
+        private readonly IAccountService _accountService;
+
+        public AccountController(IAccountService accountService) => _accountService = accountService;
         [AllowAnonymous]
-        [HttpGet]
-        public IActionResult RequestToken()
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]LoginAccountCommand login)
         {
-
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, "Amendoim")
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    issuer: "yourdomain.com",
-                    audience: "yourdomain.com",
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: creds);
-
-                return Response(new{ token = new JwtSecurityTokenHandler().WriteToken(token)});
+            return Response(_accountService.Login(login));
         }
-        [Authorize]
+        [Authorize(Policy = "Action")]
         [HttpGet("test")]
         public IActionResult Test()
         {

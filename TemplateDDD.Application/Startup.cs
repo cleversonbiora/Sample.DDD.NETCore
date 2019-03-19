@@ -20,6 +20,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TemplateDDD.CrossCutting.Utils;
 
 namespace TemplateDDD.Application
 {
@@ -45,22 +46,28 @@ namespace TemplateDDD.Application
         public void ConfigureServices(IServiceCollection services)
         {
             ConnectionStrings.TemplateDDDConnection = Configuration.GetConnectionString("TemplateDDDConnection");
-            //https://jonhilton.net/security/apis/secure-your-asp.net-core-2.0-api-part-2---jwt-bearer-authentication/
+            string Issuer = Configuration.GetSection("TokenConfigurations")["Issuer"];
+            string Audience = Configuration.GetSection("TokenConfigurations")["Audience"];
+            string Password = Configuration.GetSection("TokenConfigurations")["Password"];
+            Environment.SetEnvironmentVariable("Issuer", Issuer);
+            Environment.SetEnvironmentVariable("Audience", Audience);
+            Environment.SetEnvironmentVariable("Password", Password);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
+            .AddJwtBearer(options =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = "yourdomain.com",
-                ValidAudience = "yourdomain.com",
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaa"))
-            };
-        });
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Issuer,
+                    ValidAudience = Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(new Sha512(Password).ToString()))
+                };
+            });
 
             services.AddMvc(config =>
             {
