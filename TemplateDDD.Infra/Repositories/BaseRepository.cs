@@ -8,7 +8,7 @@ namespace TemplateDDD.Infra.Repositories
         internal IDbConnection _conn;
         public BaseRepository()
         {
-            _conn = ConnectionFactory.GetTemplateDDDOpenConnection();
+            _conn = ConnectionFactory.GetTemplateDDDOpenConnection(); //Open the coonection
         }
         public void Dispose()
         {

@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TemplateDDD.CrossCutting.Utils;
+using TemplateDDD.Domain.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace TemplateDDD.Application
 {
@@ -53,6 +55,7 @@ namespace TemplateDDD.Application
             Environment.SetEnvironmentVariable("Audience", Audience);
             Environment.SetEnvironmentVariable("Password", Password);
 
+            //Configure JTW token to work with Autorize
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -65,9 +68,12 @@ namespace TemplateDDD.Application
                     ValidIssuer = Issuer,
                     ValidAudience = Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(new Sha512(Password).ToString()))
+                        Encoding.UTF8.GetBytes(new Sha512(Password).ToString())) //Sign the JTW with a SHA512 hash of Password
                 };
             });
+
+            services.AddIdentity<ApiUser, IdentityRole>()
+                     .AddDefaultTokenProviders();
 
             services.AddMvc(config =>
             {
@@ -97,11 +103,11 @@ namespace TemplateDDD.Application
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = $"TemplateDDD API {enviroment.EnvironmentName}", Version = "v1", Description = "Projeto TemplateDDD" });
-                c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter JWT with Bearer into field", Name = "Authorization", Type = "apiKey" }); //Enable Bearer token o Swagger
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
                 { "Bearer", Enumerable.Empty<string>() },
             });
-            });
+            }); //Emable Swagger on Application on /Swagger
 
             services.AddOptions();
 

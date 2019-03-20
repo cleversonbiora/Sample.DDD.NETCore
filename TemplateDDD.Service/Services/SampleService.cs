@@ -30,7 +30,7 @@ namespace TemplateDDD.Service.Services
         
         public int Post(InsertSampleCommand sample)
         {
-            Validate(sample, new InsertSampleValidator());
+            Validate(sample, new InsertSampleValidator()); //Validations are realized on FluentValidation 
             return _sampleRepository.Insert(_mapper.Map<Sample>(sample));
         }
 

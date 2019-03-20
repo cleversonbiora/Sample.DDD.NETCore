@@ -13,6 +13,9 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using TemplateDDD.CrossCutting.Utils;
+using TemplateDDD.Domain.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 //https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-2.2
 namespace TemplateDDD.Service.Services
 {
@@ -20,20 +23,30 @@ namespace TemplateDDD.Service.Services
     {
         private readonly IMapper _mapper;
         private readonly ISampleRepository _sampleRepository;
+        private readonly UserManager<ApiUser> _userManager;
+        private readonly SignInManager<ApiUser> _signInManager;
+        private readonly IEmailSender _emailSender;
 
-        public AccountService(IMapper mapper, ISampleRepository sampleRepository)
+        public AccountService(IMapper mapper, ISampleRepository sampleRepository, UserManager<ApiUser> userManager, SignInManager<ApiUser> signInManager, IEmailSender emailSender)
         {
             _mapper = mapper;
             _sampleRepository = sampleRepository;
+            _userManager = userManager;
         }
 
-        public void Register(RegisterAccountCommand login)
+        public async Task<object> Register(RegisterAccountCommand login)
         {
-
+            var user = new ApiUser { UserName = login.Email, Email = login.Email, FirstName = login.FirstName, LastName = login.LastName };
+            var result = await _userManager.CreateAsync(user, login.Password);
+            if (!result.Succeeded)
+                throw new ArgumentException("Falha ao registrar usuário");
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return code;
         }
 
 
-        public object Login(LoginAccountCommand login)
+        public Task<object> Login(LoginAccountCommand login)
         {
             Validate(login, new LoginAccountValidator());
 
@@ -55,7 +68,7 @@ namespace TemplateDDD.Service.Services
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
 
-            return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+            return null;//new { token = new JwtSecurityTokenHandler().WriteToken(token) };
         }
     }
 }

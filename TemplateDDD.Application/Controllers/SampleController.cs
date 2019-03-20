@@ -28,7 +28,7 @@ namespace TemplateDDD.Application.Controllers
 
         //[TestAutmated(1)]
         [AllowAnonymous, HttpGet("{id}")]
-        public IActionResult Get(int id) => Response(_sampleService.Get(id));
+        public IActionResult Get(int id) => Response(_sampleService.Get(id)); //All Exception are manipulated on ResponseExceptionHandler, no nedeed add try/catch on controller.
 
         [AllowAnonymous, HttpGet("filter")]
         public IActionResult ListFilter(string description, string name) => Response(null);

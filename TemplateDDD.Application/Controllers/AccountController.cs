@@ -27,9 +27,9 @@ namespace TemplateDDD.Application.Controllers
         public AccountController(IAccountService accountService) => _accountService = accountService;
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login([FromBody]LoginAccountCommand login)
+        public async Task<IActionResult> Login([FromBody]LoginAccountCommand login)
         {
-            return Response(_accountService.Login(login));
+            return Response(await _accountService.Login(login));
         }
         [Authorize(Policy = "Action")]
         [HttpGet("test")]

@@ -7,6 +7,9 @@ using TemplateDDD.Infra;
 using TemplateDDD.Infra.Repositories;
 using TemplateDDD.Service.Services;
 using System.Data;
+using TemplateDDD.Infra.Stores;
+using TemplateDDD.Domain.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace TemplateDDD.IoC
 {
@@ -22,7 +25,17 @@ namespace TemplateDDD.IoC
             //Account
             services.AddTransient<IAccountService, AccountService>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //Identity
+            services.AddTransient<IUserStore<ApiUser>, UserStore>();
+            services.AddTransient<IRoleStore<ApiRole>, RoleStore>();
+
+            services.AddIdentity<ApiUser, ApiRole>()
+                .AddDefaultTokenProviders();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+
+                services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(Mapper.Configuration);
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
         }

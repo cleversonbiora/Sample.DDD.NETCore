@@ -16,10 +16,10 @@ namespace TemplateDDD.Infra.Repositories
 
         public int Insert(Sample model)
         {
-            IDbTransaction trans = _conn.BeginTransaction();
+            IDbTransaction trans = _conn.BeginTransaction(); //_conn connection open on BaseRepository contructor.
             try
             {
-                var id = _conn.Query<int>(QueryInsert, model, trans).Single();
+                var id = _conn.Query<int>(QueryInsert, model, trans).Single(); //All queries are stored on partial class.
 
                 trans.Commit();
 
@@ -28,7 +28,7 @@ namespace TemplateDDD.Infra.Repositories
             catch (Exception)
             {
                 trans.Rollback();
-                throw;
+                throw; //Always propagate the Exception!
             }
         }
 
@@ -37,7 +37,7 @@ namespace TemplateDDD.Infra.Repositories
             IDbTransaction trans = _conn.BeginTransaction();
             try
             {
-                _conn.Query(QueryUpdate, model, trans);
+                _conn.Query(QueryUpdate, model, trans); 
 
                 trans.Commit();
 
@@ -63,7 +63,7 @@ namespace TemplateDDD.Infra.Repositories
             catch (Exception)
             {
                 trans.Rollback();
-                throw;
+                throw; 
             }
         }
         
