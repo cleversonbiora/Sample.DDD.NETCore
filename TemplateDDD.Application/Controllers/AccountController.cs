@@ -31,6 +31,12 @@ namespace TemplateDDD.Application.Controllers
         {
             return Response(await _accountService.Login(login));
         }
+        [AllowAnonymous]
+        [HttpPost("regiter")]
+        public async Task<IActionResult> Register([FromBody]RegisterAccountCommand register)
+        {
+            return Response(await _accountService.Register(register));
+        }
         [Authorize(Policy = "Action")]
         [HttpGet("test")]
         public IActionResult Test()

@@ -18,7 +18,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApiUser] ([UserName], [NormalizedUserName], [Email],
@@ -36,7 +36,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 await connection.ExecuteAsync($"DELETE FROM [ApiUser] WHERE [Id] = @{nameof(ApiUser.Id)}", user);
@@ -49,7 +49,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApiUser>($@"SELECT * FROM [ApiUser]
@@ -61,7 +61,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApiUser>($@"SELECT * FROM [ApiUser]
@@ -100,7 +100,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 await connection.ExecuteAsync($@"UPDATE [ApiUser] SET
@@ -145,7 +145,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApiUser>($@"SELECT * FROM [ApiUser]
@@ -217,13 +217,13 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 var normalizedName = roleName.ToUpper();
-                var roleId = await connection.ExecuteScalarAsync<int?>($"SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @{nameof(normalizedName)}", new { normalizedName });
+                var roleId = await connection.ExecuteScalarAsync<int?>($"SELECT [Id] FROM [ApiRole] WHERE [NormalizedName] = @{nameof(normalizedName)}", new { normalizedName });
                 if (!roleId.HasValue)
-                    roleId = await connection.ExecuteAsync($"INSERT INTO [ApplicationRole]([Name], [NormalizedName]) VALUES(@{nameof(roleName)}, @{nameof(normalizedName)})",
+                    roleId = await connection.ExecuteAsync($"INSERT INTO [ApiRole]([Name], [NormalizedName]) VALUES(@{nameof(roleName)}, @{nameof(normalizedName)})",
                         new { roleName, normalizedName });
 
                 await connection.ExecuteAsync($"IF NOT EXISTS(SELECT 1 FROM [ApiUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}) " +
@@ -236,10 +236,10 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
-                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
+                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApiRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
                 if (!roleId.HasValue)
                     await connection.ExecuteAsync($"DELETE FROM [ApiUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}", new { userId = user.Id, roleId });
             }
@@ -249,10 +249,10 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
-                var queryResults = await connection.QueryAsync<string>("SELECT r.[Name] FROM [ApplicationRole] r INNER JOIN [ApiUserRole] ur ON ur.[RoleId] = r.Id " +
+                var queryResults = await connection.QueryAsync<string>("SELECT r.[Name] FROM [ApiRole] r INNER JOIN [ApiUserRole] ur ON ur.[RoleId] = r.Id " +
                     "WHERE ur.UserId = @userId", new { userId = user.Id });
 
                 return queryResults.ToList();
@@ -263,9 +263,9 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
-                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
+                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApiRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
                 if (roleId == default(int)) return false;
                 var matchingRoles = await connection.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM [ApiUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}",
                     new { userId = user.Id, roleId });
@@ -278,10 +278,10 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 var queryResults = await connection.QueryAsync<ApiUser>("SELECT u.* FROM [ApiUser] u " +
-                    "INNER JOIN [ApiUserRole] ur ON ur.[UserId] = u.[Id] INNER JOIN [ApplicationRole] r ON r.[Id] = ur.[RoleId] WHERE r.[NormalizedName] = @normalizedName",
+                    "INNER JOIN [ApiUserRole] ur ON ur.[UserId] = u.[Id] INNER JOIN [ApiRole] r ON r.[Id] = ur.[RoleId] WHERE r.[NormalizedName] = @normalizedName",
                     new { normalizedName = roleName.ToUpper() });
 
                 return queryResults.ToList();

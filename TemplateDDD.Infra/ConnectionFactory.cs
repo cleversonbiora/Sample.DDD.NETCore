@@ -15,5 +15,11 @@ namespace TemplateDDD.Infra
 
             return connection;
         }
+
+        public static DbConnection GetTemplateDDDConnection()
+        {
+            var connection = new SqlConnection(ConnectionStrings.TemplateDDDConnection);
+            return connection;
+        }
     }
 }

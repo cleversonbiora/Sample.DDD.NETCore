@@ -13,7 +13,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 role.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApiRole] ([Name], [NormalizedName])
@@ -28,7 +28,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 await connection.ExecuteAsync($@"UPDATE [ApiRole] SET
@@ -44,7 +44,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 await connection.ExecuteAsync($"DELETE FROM [ApiRole] WHERE [Id] = @{nameof(ApiRole.Id)}", role);
@@ -84,7 +84,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApiRole>($@"SELECT * FROM [ApiRole]
@@ -96,7 +96,7 @@ namespace TemplateDDD.Infra.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var connection = ConnectionFactory.GetTemplateDDDOpenConnection())
+            using (var connection = ConnectionFactory.GetTemplateDDDConnection())
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApiRole>($@"SELECT * FROM [ApiRole]
@@ -112,7 +112,7 @@ namespace TemplateDDD.Infra.Stores
 }
 
 
-//CREATE TABLE[dbo].[ApplicationRole]
+//CREATE TABLE[dbo].[ApiRole]
 //(
 
 //   [Id] INT NOT NULL PRIMARY KEY IDENTITY,
@@ -124,7 +124,7 @@ namespace TemplateDDD.Infra.Stores
 
 //GO
 
-//CREATE INDEX[IX_ApplicationRole_NormalizedName] ON[dbo].[ApplicationRole] ([NormalizedName])
+//CREATE INDEX[IX_ApiRole_NormalizedName] ON[dbo].[ApiRole] ([NormalizedName])
 
 
 //CREATE TABLE[dbo].[ApplicationUser]
@@ -161,5 +161,5 @@ namespace TemplateDDD.Infra.Stores
 //	[RoleId] INT NOT NULL
 //    PRIMARY KEY([UserId], [RoleId]),
 //    CONSTRAINT[FK_ApplicationUserRole_User] FOREIGN KEY([UserId]) REFERENCES[ApplicationUser] ([Id]),
-//    CONSTRAINT[FK_ApplicationUserRole_Role] FOREIGN KEY([RoleId]) REFERENCES[ApplicationRole] ([Id])
+//    CONSTRAINT[FK_ApplicationUserRole_Role] FOREIGN KEY([RoleId]) REFERENCES[ApiRole] ([Id])
 //)

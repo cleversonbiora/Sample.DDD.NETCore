@@ -72,8 +72,8 @@ namespace TemplateDDD.Application
                 };
             });
 
-            services.AddIdentity<ApiUser, IdentityRole>()
-                     .AddDefaultTokenProviders();
+            //services.AddIdentity<ApiUser, IdentityRole>()
+            //         .AddDefaultTokenProviders();
 
             services.AddMvc(config =>
             {

@@ -32,6 +32,8 @@ namespace TemplateDDD.Service.Services
             _mapper = mapper;
             _sampleRepository = sampleRepository;
             _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         public async Task<object> Register(RegisterAccountCommand login)
@@ -41,21 +43,11 @@ namespace TemplateDDD.Service.Services
             if (!result.Succeeded)
                 throw new ArgumentException("Falha ao registrar usuário");
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
             await _signInManager.SignInAsync(user, isPersistent: false);
-            return code;
-        }
-
-
-        public Task<object> Login(LoginAccountCommand login)
-        {
-            Validate(login, new LoginAccountValidator());
-
-            if (login.Password != "123")
-                throw new ArgumentException("User or Password inccorect!");
-
             var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, login.User)
+    {
+                    new Claim(ClaimTypes.Name, login.Email)
                 };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(new Sha512(Environment.GetEnvironmentVariable("Password")).ToString()));
@@ -67,8 +59,40 @@ namespace TemplateDDD.Service.Services
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
+            return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+        }
+        
+        public async Task<object> Login(LoginAccountCommand login)
+        {
+            Validate(login, new LoginAccountValidator());
 
-            return null;//new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+            var result = await _signInManager.PasswordSignInAsync(login.User, login.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                var claims = new[]
+                    {
+                    new Claim(ClaimTypes.Name, login.User)
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(new Sha512(Environment.GetEnvironmentVariable("Password")).ToString()));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                    issuer: Environment.GetEnvironmentVariable("Issuer"),
+                    audience: Environment.GetEnvironmentVariable("Audience"),
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(30),
+                    signingCredentials: creds);
+                return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+            }
+            if (result.IsLockedOut)
+            {
+                throw new ArgumentException("User account locked out.");
+            }
+            else
+            {
+                throw new ArgumentException("Invalid login attempt.");
+            }
         }
     }
 }
