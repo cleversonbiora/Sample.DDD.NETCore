@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Text;
 using TemplateDDD.Domain.ViewModel;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace TemplateDDD.Domain.Interfaces.Service
 {
     public interface IAccountService
     {
-        Task<object> Login(LoginAccountCommand sample);
-        Task<object> Register(RegisterAccountCommand sample);
+        Task<object> Login(LoginAccountCommand sample, ClaimsPrincipal User);
+        Task<object> Register(RegisterAccountCommand sample, ClaimsPrincipal User);
     }
 }

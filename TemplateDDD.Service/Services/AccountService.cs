@@ -25,18 +25,23 @@ namespace TemplateDDD.Service.Services
         private readonly ISampleRepository _sampleRepository;
         private readonly UserManager<ApiUser> _userManager;
         private readonly SignInManager<ApiUser> _signInManager;
+        private readonly RoleManager<ApiRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
-        public AccountService(IMapper mapper, ISampleRepository sampleRepository, UserManager<ApiUser> userManager, SignInManager<ApiUser> signInManager, IEmailSender emailSender)
+        public AccountService(IMapper mapper, ISampleRepository sampleRepository, UserManager<ApiUser> userManager, RoleManager<ApiRole> roleManager, SignInManager<ApiUser> signInManager, IEmailSender emailSender)
         {
             _mapper = mapper;
             _sampleRepository = sampleRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _roleManager = roleManager;
+        }
+        public async Task AddRole()
+        {
         }
 
-        public async Task<object> Register(RegisterAccountCommand login)
+        public async Task<object> Register(RegisterAccountCommand login, ClaimsPrincipal User)
         {
             var user = new ApiUser { UserName = login.Email, Email = login.Email, FirstName = login.FirstName, LastName = login.LastName };
             var result = await _userManager.CreateAsync(user, login.Password);
@@ -45,9 +50,35 @@ namespace TemplateDDD.Service.Services
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            var claims = new[]
-    {
-                    new Claim(ClaimTypes.Name, login.Email)
+            var token = GenerateJwtToken(user);
+            return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+        }
+
+        public async Task<object> Login(LoginAccountCommand login, ClaimsPrincipal User)
+        {
+            Validate(login, new LoginAccountValidator());
+            var result = await _signInManager.PasswordSignInAsync(login.User, login.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var token = GenerateJwtToken(user);
+                return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
+            }
+            if (result.IsLockedOut)
+            {
+                throw new ArgumentException("User account locked out.");
+            }
+            else
+            {
+                throw new ArgumentException("Invalid login attempt.");
+            }
+        }
+
+        private static JwtSecurityToken GenerateJwtToken(ApiUser user)
+        {
+            var claims = new[]{
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim(ClaimTypes.Email, user.Email)
                 };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(new Sha512(Environment.GetEnvironmentVariable("Password")).ToString()));
@@ -59,40 +90,7 @@ namespace TemplateDDD.Service.Services
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
-            return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
-        }
-        
-        public async Task<object> Login(LoginAccountCommand login)
-        {
-            Validate(login, new LoginAccountValidator());
-
-            var result = await _signInManager.PasswordSignInAsync(login.User, login.Password, false, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                var claims = new[]
-                    {
-                    new Claim(ClaimTypes.Name, login.User)
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(new Sha512(Environment.GetEnvironmentVariable("Password")).ToString()));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    issuer: Environment.GetEnvironmentVariable("Issuer"),
-                    audience: Environment.GetEnvironmentVariable("Audience"),
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: creds);
-                return new { token = new JwtSecurityTokenHandler().WriteToken(token) };
-            }
-            if (result.IsLockedOut)
-            {
-                throw new ArgumentException("User account locked out.");
-            }
-            else
-            {
-                throw new ArgumentException("Invalid login attempt.");
-            }
+            return token;
         }
     }
 }

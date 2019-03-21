@@ -142,7 +142,9 @@ namespace TemplateDDD.Infra.Stores
 //    [PasswordHash] NVARCHAR(MAX) NULL,
 //    [PhoneNumber] NVARCHAR(50) NULL,
 //    [PhoneNumberConfirmed] BIT NOT NULL,
-//    [TwoFactorEnabled] BIT NOT NULL
+//    [TwoFactorEnabled] BIT NOT NULL,
+//[FirstName] VARCHAR(500) NULL, 
+//    [LastName] VARCHAR(500) NULL 
 //)
 
 //GO

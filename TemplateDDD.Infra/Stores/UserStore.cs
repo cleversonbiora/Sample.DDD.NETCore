@@ -22,10 +22,11 @@ namespace TemplateDDD.Infra.Stores
             {
                 await connection.OpenAsync(cancellationToken);
                 user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApiUser] ([UserName], [NormalizedUserName], [Email],
-                    [NormalizedEmail], [EmailConfirmed], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled])
+                    [NormalizedEmail], [EmailConfirmed], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [FirstName], [LastName])
                     VALUES (@{nameof(ApiUser.UserName)}, @{nameof(ApiUser.NormalizedUserName)}, @{nameof(ApiUser.Email)},
                     @{nameof(ApiUser.NormalizedEmail)}, @{nameof(ApiUser.EmailConfirmed)}, @{nameof(ApiUser.PasswordHash)},
-                    @{nameof(ApiUser.PhoneNumber)}, @{nameof(ApiUser.PhoneNumberConfirmed)}, @{nameof(ApiUser.TwoFactorEnabled)});
+                    @{nameof(ApiUser.PhoneNumber)}, @{nameof(ApiUser.PhoneNumberConfirmed)}, @{nameof(ApiUser.TwoFactorEnabled)}, 
+                    @{nameof(ApiUser.FirstName)}, @{nameof(ApiUser.LastName)});
                     SELECT CAST(SCOPE_IDENTITY() as int)", user);
             }
 

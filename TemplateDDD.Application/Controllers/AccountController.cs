@@ -29,13 +29,13 @@ namespace TemplateDDD.Application.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginAccountCommand login)
         {
-            return Response(await _accountService.Login(login));
+            return Response(await _accountService.Login(login, User));
         }
         [AllowAnonymous]
         [HttpPost("regiter")]
         public async Task<IActionResult> Register([FromBody]RegisterAccountCommand register)
         {
-            return Response(await _accountService.Register(register));
+            return Response(await _accountService.Register(register,User));
         }
         [Authorize(Policy = "Action")]
         [HttpGet("test")]
