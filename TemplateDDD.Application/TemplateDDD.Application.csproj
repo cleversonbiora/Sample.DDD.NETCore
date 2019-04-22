@@ -20,11 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
-    <Content Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TemplateDDD.CrossCutting\TemplateDDD.CrossCutting.csproj" />
     <ProjectReference Include="..\TemplateDDD.Domain\TemplateDDD.Domain.csproj" />
     <ProjectReference Include="..\TemplateDDD.IoC\TemplateDDD.IoC.csproj" />

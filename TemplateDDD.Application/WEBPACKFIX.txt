@@ -1,3 +1,0 @@
-﻿npm remove webpack -g
-npm i webpack --save-dev
-npm run webpack
