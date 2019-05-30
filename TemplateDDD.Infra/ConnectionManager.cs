@@ -17,7 +17,8 @@ namespace TemplateDDD.Infra
 
         public void BeginTransaction()
         {
-            trans = conn.BeginTransaction();
+            if(trans == null || trans.Connection == null)
+                trans = conn.BeginTransaction();
         }
 
         public void Rollback()
@@ -39,6 +40,7 @@ namespace TemplateDDD.Infra
             finally
             {
                 trans.Dispose();
+                trans = null;
                 //_trans = _conn.BeginTransaction();
             }
         }
