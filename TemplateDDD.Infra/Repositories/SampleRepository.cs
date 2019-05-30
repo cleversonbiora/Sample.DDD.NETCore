@@ -21,7 +21,7 @@ namespace TemplateDDD.Infra.Repositories
             try
             {
                 BeginTransaction();
-                   var id = _conn.Query<int>(QueryInsert, model, _trans).Single(); //All queries are stored on partial class.
+                var id = _conn.Query<int>(QueryInsert, model, _trans).Single(); //All queries are stored on partial class.
                 Commit();
                 return id;
             }

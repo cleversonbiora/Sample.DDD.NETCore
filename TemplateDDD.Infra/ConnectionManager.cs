@@ -9,13 +9,22 @@ namespace TemplateDDD.Infra
     {
         public IDbConnection conn;
         public IDbTransaction trans;
+        public ConnType type;
 
         public ConnectionManager()
         {
             conn = ConnectionFactory.GetTemplateDDDOpenConnection();
+            type = ConnType.Single;
         }
 
-        public void BeginTransaction()
+        public void BeginMultiTransaction()
+        {
+            type = ConnType.Multiple;
+            if (trans == null || trans.Connection == null)
+                trans = conn.BeginTransaction();
+        }
+
+        internal void BeginTransaction()
         {
             if(trans == null || trans.Connection == null)
                 trans = conn.BeginTransaction();
@@ -26,8 +35,28 @@ namespace TemplateDDD.Infra
             trans.Rollback();
         }
 
-        public void Commit()
+        public void CommitAll()
         {
+            try
+            {
+                trans.Commit();
+            }
+            catch
+            {
+                trans.Rollback();
+                throw;
+            }
+            finally
+            {
+                trans.Dispose();
+                trans = null;
+            }
+        }
+
+        internal void Commit()
+        {
+            if (type == ConnType.Multiple)
+                return;
             try
             {
                 trans.Commit();
@@ -60,5 +89,11 @@ namespace TemplateDDD.Infra
             }
             GC.SuppressFinalize(this);
         }
+
+        public enum ConnType {
+            Single,
+            Multiple
+        }
+
     }
 }
