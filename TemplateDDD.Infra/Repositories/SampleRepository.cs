@@ -9,6 +9,8 @@ namespace TemplateDDD.Infra.Repositories
 {
     public partial class SampleRepository : BaseRepository, ISampleRepository
     {
+        public SampleRepository(ConnectionManager connectionManager) : base(connectionManager) { }
+
         public Sample GetById(int id)
         {
             return _conn.Query<Sample>(QuerySelectById, new { Id = id }).FirstOrDefault();
@@ -16,53 +18,47 @@ namespace TemplateDDD.Infra.Repositories
 
         public int Insert(Sample model)
         {
-            IDbTransaction trans = _conn.BeginTransaction(); //_conn connection open on BaseRepository contructor.
             try
             {
-                var id = _conn.Query<int>(QueryInsert, model, trans).Single(); //All queries are stored on partial class.
-
-                trans.Commit();
-
+                BeginTransaction();
+                   var id = _conn.Query<int>(QueryInsert, model, _trans).Single(); //All queries are stored on partial class.
+                Commit();
                 return id;
             }
             catch (Exception)
             {
-                trans.Rollback();
+                Rollback();
                 throw; //Always propagate the Exception!
             }
         }
 
         public bool Update(Sample model)
         {
-            IDbTransaction trans = _conn.BeginTransaction();
             try
             {
-                _conn.Query(QueryUpdate, model, trans); 
-
-                trans.Commit();
-
+                BeginTransaction();
+                _conn.Query(QueryUpdate, model, _trans);
+                Commit();
                 return true;
             }
             catch (Exception)
             {
-                trans.Rollback();
+                Rollback();
                 throw;
             }
         }
         public bool Delete(int id)
         {
-            IDbTransaction trans = _conn.BeginTransaction();
             try
             {
-                _conn.Query(QueryUpdate, new { Id = id }, trans);
-
-                trans.Commit();
-
+                BeginTransaction();
+                _conn.Query(QueryUpdate, new { Id = id }, _trans);
+                Commit();
                 return true;
             }
             catch (Exception)
             {
-                trans.Rollback();
+                Rollback();
                 throw; 
             }
         }

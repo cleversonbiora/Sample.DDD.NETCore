@@ -19,7 +19,9 @@ namespace TemplateDDD.Infra
         public static DbConnection GetTemplateDDDConnection()
         {
             var connection = new SqlConnection(ConnectionStrings.TemplateDDDConnection);
+
             return connection;
         }
+
     }
 }

@@ -21,6 +21,7 @@ namespace TemplateDDD.IoC
             //Sample
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<ISampleRepository, SampleRepository>();
+            services.AddTransient<ITesteRepository, TesteRepository>();
 
             //Account
             services.AddTransient<IAccountService, AccountService>();
@@ -37,6 +38,7 @@ namespace TemplateDDD.IoC
 
                 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(Mapper.Configuration);
+            services.AddScoped<ConnectionManager>();
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
         }
     }

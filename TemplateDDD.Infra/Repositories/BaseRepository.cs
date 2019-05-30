@@ -3,17 +3,18 @@ using System.Data;
 
 namespace TemplateDDD.Infra.Repositories
 {
-    public class BaseRepository : IDisposable
+    public class BaseRepository
     {
-        internal IDbConnection _conn;
-        public BaseRepository()
-        {
-            _conn = ConnectionFactory.GetTemplateDDDOpenConnection(); //Open the coonection
-        }
-        public void Dispose()
-        {
-            _conn.Close();
-            GC.SuppressFinalize(this);
-        }
+        public IDbConnection _conn { get { return _connectionManager.conn; } }
+        public IDbTransaction _trans { get { return _connectionManager.trans; } }
+        internal ConnectionManager _connectionManager;
+
+        public BaseRepository(ConnectionManager connectionManager) =>_connectionManager = connectionManager;
+
+        public void BeginTransaction() => _connectionManager.BeginTransaction();
+
+        public void Rollback() => _connectionManager.Rollback();
+
+        public void Commit() => _connectionManager.Commit();
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using AutoMapper;
 using TemplateDDD.Domain.Interfaces.Infra;
 using TemplateDDD.Domain.ViewModel;
+using TemplateDDD.Infra;
 
 namespace TemplateDDD.Service.Services
 {
@@ -16,11 +17,15 @@ namespace TemplateDDD.Service.Services
     {
         private readonly IMapper _mapper;
         private readonly ISampleRepository _sampleRepository;
+        private readonly ITesteRepository _testeRepository;
+        private readonly ConnectionManager _connectionManager;
 
-        public SampleService(IMapper mapper, ISampleRepository sampleRepository)
+        public SampleService(IMapper mapper, ISampleRepository sampleRepository, ITesteRepository testeRepository, ConnectionManager connectionManager)
         {
             _mapper = mapper;
             _sampleRepository = sampleRepository;
+            _testeRepository = testeRepository;
+            _connectionManager = connectionManager;
         }
 
         public SampleViewModel Get(int id)
@@ -31,7 +36,9 @@ namespace TemplateDDD.Service.Services
         public int Post(InsertSampleCommand sample)
         {
             Validate(sample, new InsertSampleValidator()); //Validations are realized on FluentValidation 
-            return _sampleRepository.Insert(_mapper.Map<Sample>(sample));
+            _testeRepository.Insert(new Teste() { Id = new Random().Next(), Desc = "Teste" });
+            var result = _sampleRepository.Insert(_mapper.Map<Sample>(sample));
+            return result;
         }
 
         public bool Put(UpdateSampleCommand sample)
