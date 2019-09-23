@@ -7,13 +7,13 @@ namespace TemplateDDD.Infra
 {
     public class ConnectionManager : IDisposable
     {
-        public IDbConnection conn;
+        public Lazy<IDbConnection> conn;
         public IDbTransaction trans;
         public ConnType type;
 
         public ConnectionManager()
         {
-            conn = ConnectionFactory.GetTemplateDDDOpenConnection();
+            conn = new Lazy<IDbConnection>(() => ConnectionFactory.GetTemplateDDDOpenConnection());
             type = ConnType.Single;
         }
 
@@ -21,13 +21,13 @@ namespace TemplateDDD.Infra
         {
             type = ConnType.Multiple;
             if (trans == null || trans.Connection == null)
-                trans = conn.BeginTransaction();
+                trans = conn.Value.BeginTransaction();
         }
 
         internal void BeginTransaction()
         {
             if(trans == null || trans.Connection == null)
-                trans = conn.BeginTransaction();
+                trans = conn.Value.BeginTransaction();
         }
 
         public void Rollback()
@@ -84,7 +84,7 @@ namespace TemplateDDD.Infra
 
             if (conn != null)
             {
-                conn.Dispose();
+                conn.Value.Dispose();
                 conn = null;
             }
             GC.SuppressFinalize(this);

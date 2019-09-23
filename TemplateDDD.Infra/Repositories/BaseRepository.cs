@@ -5,7 +5,7 @@ namespace TemplateDDD.Infra.Repositories
 {
     public class BaseRepository
     {
-        public IDbConnection _conn { get { return _connectionManager.conn; } }
+        public IDbConnection _conn { get { return _connectionManager.conn.Value; } }
         public IDbTransaction _trans { get { return _connectionManager.trans; } }
         internal ConnectionManager _connectionManager;
 

@@ -10,11 +10,11 @@ namespace TemplateDDD.Infra.Repositories
                                                     FROM [dbo].[Teste]
                                                     WHERE Id = @Id";
         private const string QueryInsert = @"INSERT INTO [dbo].[Teste]
-                                                   ([Id],[Desc]
+                                                   ([Desc]
                                                    )
                                                  OUTPUT inserted.Id
                                                  VALUES
-                                                       (@Id,@Desc
+                                                       (@Desc
                                                        )";
         private const string QueryUpdate = @"UPDATE [dbo].[Teste]
                                                    SET [Desc] = @Desc

@@ -36,8 +36,10 @@ namespace TemplateDDD.Service.Services
         public int Post(InsertSampleCommand sample)
         {
             Validate(sample, new InsertSampleValidator()); //Validations are realized on FluentValidation 
-            _testeRepository.Insert(new Teste() { Id = new Random().Next(), Desc = "Teste" });
+            //_connectionManager.BeginMultiTransaction();
+            _testeRepository.Insert(new Teste() { Desc = "Teste" });
             var result = _sampleRepository.Insert(_mapper.Map<Sample>(sample));
+            //_connectionManager.CommitAll();
             return result;
         }
 
